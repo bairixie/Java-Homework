@@ -1,58 +1,70 @@
 /*
- *   Author: Sean Mo    Date:03-20-2023
- *   Problem 4    Homework 7
+ *   Author: Sean Mo    Date:03-27-2023
+ *   Problem 4    Homework 8
  */
-package H7;
-
-import java.util.Scanner;
-
-public class Location {
-
-	public static void main(String[] args) {
-		Scanner kb = new Scanner (System.in);
-		// declare the variables
-		System.out.println("Enter the number of row in the square matrix");
-		int row = kb.nextInt();
-		int largestSize = 0;
-		int x = 0;
-		int y = 0;
-		int [][] array1 = new int[row][row];
-		int [][] array2 = new int[row][row];
-		// input the values of coordinates
-		System.out.println(" Enter values of the square matrix with the only element 0 and 1: ");
-		
-		for (int r = 0; r < array1.length; r++)
+package h8;
+import java.util.*;
+public class Location
+{
+	//data or fields or properties
+	public int row;
+	public int column;
+	public double maxValue;
+	
+	//constructors
+	public Location(int r, int c, double max)
+	{
+		row = r;
+		column = c;
+		maxValue = max;
+	}
+	//method
+	public static Location locateLargest(double [][] a)
+	{
+		int maxRow = 0;
+		int maxColumn = 0;
+		double maxValue = a [maxRow][maxColumn];
+		for (int i =0; i < a.length; i++)
 		{
-			for(int col= 0; col<array1[r].length; col++ )
+			for (int j =0; j< a[i].length; j++)
 			{
-					array1[r][col]= kb.nextInt();
+				if (a[i][j]> maxValue)
+				{
+					maxRow=i;
+					maxColumn = j;
+					maxValue = a[i][j];
+					
+				}
 			}
 		}
-		// find the location and size of the first maximum square submatrix
-		for (int i = 0; i < row; i++) 
-		{
-            for (int j = 0; j < row; j++) 
-            {
-                if (i == 0 || j == 0) 
-                {
-                    array2[i][j] = array1[i][j];
-                } 
-                else if (array1[i][j] == 1) 
-                {
-                    array2[i][j] = Math.min(array2[i-1][j], Math.min(array2[i][j-1], array2[i-1][j-1])) + 1;
-                    
-                }
-                if (array2[i][j] > largestSize) 
-                {
-                    largestSize = array2[i][j];
-                    x = i - largestSize + 1;
-                    y = j - largestSize + 1;
-                    
-                }
-            }
+		return new Location (maxRow, maxColumn, maxValue);
+	}
+	
+	public static void main(String[] args) 
+	{
+        Scanner kb = new Scanner(System.in);
+        System.out.print("Enter the number of rows and columns in the array: ");
+        int row = kb.nextInt();
+        int column = kb.nextInt();
+        
+        System.out.println("Enter the array: ");
+        double [][] array = new double [row][column];
+        for (int i=0; i < row; i++)
+        {
+        	for (int j=0; j < column; j++)
+        	{
+        		array[i][j]=kb.nextDouble();
+        	}
         }
-		// output
-        System.out.println("The maximum square submatrix is at " + "("+x+","+y+") with size "+ largestSize+".");
-    }
+        Location loc = Location.locateLargest(array);
+        
+        System.out.println("The largest element is " + loc.maxValue+ ", and it is located at "+  "("+ loc.row+ ","+ loc.column+")" );
+        
+	}    
+        
+        
+              
 
 }
+
+
